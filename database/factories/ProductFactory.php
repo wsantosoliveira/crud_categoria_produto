@@ -6,6 +6,6 @@ $factory->define(CodeShopping\Models\Product::class, function (Faker $faker) {
     return [
         "name" => $faker->firstName,
         "description" => $faker->firstNameMale,
-        "price" => 0
+        "price" => $faker->randomFloat(2, 0, 9999)
     ];
 });
