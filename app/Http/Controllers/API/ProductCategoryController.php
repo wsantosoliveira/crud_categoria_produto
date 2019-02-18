@@ -17,12 +17,12 @@ class ProductCategoryController extends Controller
     public function store(ProductCategoryRequest $request, Product $product)
     {
         $product->categories()->sync($request->categories);
-        return response([], 200);
+        return response()->json([], 200);
     }
 
     public function destroy(Product $product, Category $category)
     {
         $product->categories()->detach($category->id);
-        return response([], 204);
+        return response()->json([], 204);
     }
 }

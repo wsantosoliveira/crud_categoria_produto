@@ -29,13 +29,12 @@ class CategoryController extends Controller
     {
         $category->fill($request->all());
         $category->save();
-        //return $category;
-        return response([], 200);
+        return response()->json([], 200);
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return response([], 204);
+        return response()->json([], 204);
     }
 }
