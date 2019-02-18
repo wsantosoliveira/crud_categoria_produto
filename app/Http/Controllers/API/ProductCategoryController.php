@@ -4,6 +4,7 @@ namespace CodeShopping\Http\Controllers\API;
 
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\ProductCategoryRequest;
+use CodeShopping\Http\Resources\ProductCategoryResource;
 use CodeShopping\Models\Category;
 use CodeShopping\Models\Product;
 
@@ -11,7 +12,7 @@ class ProductCategoryController extends Controller
 {
     public function index(Product $product)
     {
-        return $product->categories;
+        return new ProductCategoryResource($product);
     }
 
     public function store(ProductCategoryRequest $request, Product $product)
