@@ -1,8 +1,9 @@
 <?php
 
+use CodeShopping\Models\Category;
 use Faker\Generator as Faker;
 
-$factory->define(CodeShopping\Models\Category::class, function (Faker $faker) {
+$factory->define(Category::class, function (Faker $faker) {
     return [
         'name' => $faker->colorName
     ];

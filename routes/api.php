@@ -20,4 +20,6 @@ Route::group(["namespace" => "API", "as" => "api."], function () {
     Route::resource("categories", "CategoryController", ["except" => ["create", "edit"]]);
     Route::resource("products", "ProductController", ["except" => ["create", "edit"]]);
     Route::resource("products.categories", "ProductCategoryController", ["only" => ["index", "store", "destroy"]]);
+    Route::resource("inputs", "ProductInputController", ["only" => ["index", "store", "show"]]);
+    Route::resource("outputs", "ProductOutputController", ["only" => ["index", "store", "show"]]);
 });
