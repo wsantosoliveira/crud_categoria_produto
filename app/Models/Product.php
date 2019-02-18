@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace CodeShopping\Models;
 
@@ -9,7 +10,7 @@ class Product extends Model
 {
     use Sluggable;
 
-    protected $fillable = ["name", "active", "description", "price" ];
+    protected $fillable = ["name", "active", "description", "price"];
 
     public function sluggable(): array
     {
@@ -18,5 +19,10 @@ class Product extends Model
                 "source" => "name"
             ]
         ];
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
