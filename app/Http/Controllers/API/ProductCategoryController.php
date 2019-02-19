@@ -18,7 +18,7 @@ class ProductCategoryController extends Controller
     public function store(ProductCategoryRequest $request, Product $product)
     {
         $product->categories()->sync($request->categories);
-        return response()->json([], 200);
+        return response()->json([], 201);
     }
 
     public function destroy(Product $product, Category $category)
