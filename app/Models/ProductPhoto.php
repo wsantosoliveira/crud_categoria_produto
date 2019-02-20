@@ -5,6 +5,7 @@ namespace CodeShopping\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 
 class ProductPhoto extends Model
 {
@@ -18,6 +19,7 @@ class ProductPhoto extends Model
     {
         try {
             self::uploadFiles($productId, $files);
+            throw new \Exception("Teste");
             \DB::beginTransaction();
             $photos = self::createPhotosModels($productId, $files);
             \DB::commit();
@@ -58,12 +60,9 @@ class ProductPhoto extends Model
 
     private static function deleteFiles(int $productId, array $files)
     {
-        $path = self::photosPath($productId);
-
+        $dir = self::photosDir($productId);
         foreach ($files as $file) {
-            $photoFile = "{$path}/{$file->hashName()}";
-            if (file_exists($photoFile))
-                \File::delete($photoFile);
+            \Storage::disk("public")->delete("{$dir}/{$file->hashName()}");
         }
     }
 
@@ -73,9 +72,46 @@ class ProductPhoto extends Model
         return storage_path("{$path}/{$productId}");
     }
 
+    public function updateWithPhoto(UploadedFile $file)
+    {
+        try {
+            self::uploadFiles($this->product_id, [$file]);
+            \DB::beginTransaction();
+            $this->deletePhoto($this->product_id, $this->file_name);
+            $this->file_name = $file->hashName();
+            $this->save();
+            \DB::commit();
+            return $this;
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            self::deleteFiles($this->product_id, [$file]);
+            throw $e;
+        }
+    }
+
+    private function deletePhoto(int $productId, string $fileName)
+    {
+        $dir = self::photosDir($productId);
+        \Storage::disk("public")->delete("{$dir}/{$fileName}");
+    }
+
+    public function deletePhotoAndFiles(): bool
+    {
+        try {
+            \DB::beginTransaction();
+            $this->deletePhoto($this->product_id, $this->file_name);
+            $result = $this->delete();
+            \DB::commit();
+            return $result;
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            throw $e;
+        }
+    }
+
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     public function getPhotoUrlAttribute()

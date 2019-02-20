@@ -13,6 +13,7 @@ class CreateCategoriesTable extends Migration
             $table->string("name");
             $table->string("slug");
             $table->boolean("active")->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

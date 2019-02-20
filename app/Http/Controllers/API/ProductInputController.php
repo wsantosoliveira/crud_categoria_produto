@@ -19,7 +19,7 @@ class ProductInputController extends Controller
     {
         //$input = ProductInput::create($request->all());
         $input = $product->inputs()->create($request->all());
-        return response(new ProductInputResource($input), 201);
+        return response()->json(new ProductInputResource($input), 201);
     }
 
     public function show(Product $product, $id)

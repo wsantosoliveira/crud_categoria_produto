@@ -18,7 +18,7 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->all());
         $category->refresh();
-        return response(new CategoryResource($category), 201);
+        return response()->json(new CategoryResource($category), 201);
     }
 
     public function show(Category $category)
@@ -36,6 +36,12 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        return response()->json([], 204);
+    }
+
+    public function restore(Category $category)
+    {
+        $category->restore();
         return response()->json([], 204);
     }
 }

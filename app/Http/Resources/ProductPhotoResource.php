@@ -20,7 +20,9 @@ class ProductPhotoResource extends JsonResource
             "id" => $this->id,
             "file_name" => $this->file_name,
             "photo_url" => $this->photo_url,
-            "product_id" => $this->product_id
+            "product_id" => $this->product_id,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at
         ];
         if (!$this->isCollection)
             $data["product"] = new ProductResource($this->resource->product);

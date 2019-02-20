@@ -4,15 +4,14 @@ namespace CodeShopping\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductInputResource extends JsonResource
+class UserResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
             "id" => $this->id,
-            "amount" => (int)$this->amount,
-            "product_id" => $this->product_id,
-            "product" => new ProductResource($this->resource->product),
+            "name" => $this->name,
+            "email" => $this->email,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
         ];

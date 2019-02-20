@@ -19,7 +19,7 @@ class ProductOutputController extends Controller
     {
         //$output = ProductOutput::create($request->all());
         $output = $product->outputs()->create($request->all());
-        return response(new ProductOutputResource($output), 201);
+        return response()->json(new ProductOutputResource($output), 201);
     }
 
     public function show(Product $product, $id)

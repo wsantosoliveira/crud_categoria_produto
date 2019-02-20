@@ -28,14 +28,17 @@ class ProductPhotoController extends Controller
         return new ProductPhotoResource($photo);
     }
 
-    public function update(ProductPhotoRequest $request, Product $product)
+    public function update(ProductPhotoRequest $request, Product $product, $id)
     {
+        $photo = $product->photos()->findOrFail($id);
+        $photo->updateWithPhoto($request->photo);
+        return response()->json([], 200);
     }
 
     public function destroy(Product $product, $id)
     {
         $photo = $product->photos()->findOrFail($id);
-        //$photo->deletePhotoAndFiles();
+        $photo->deletePhotoAndFiles();
         return response()->json([], 204);
     }
 }

@@ -12,7 +12,9 @@ class ProductOutputResource extends JsonResource
             "id" => $this->id,
             "amount" => (int)$this->amount,
             "product_id" => $this->product_id,
-            "product" => new ProductResource($this->resource->product)
+            "product" => new ProductResource($this->resource->product),
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at
         ];
     }
 }
