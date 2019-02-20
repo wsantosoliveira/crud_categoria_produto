@@ -6,6 +6,7 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\CategoryRequest;
 use CodeShopping\Http\Resources\CategoryResource;
 use CodeShopping\Models\Category;
+use Illuminate\Http\Response as Status;
 
 class CategoryController extends Controller
 {
@@ -18,7 +19,7 @@ class CategoryController extends Controller
     {
         $category = Category::create($request->all());
         $category->refresh();
-        return response()->json(new CategoryResource($category), 201);
+        return response()->json(new CategoryResource($category), Status::HTTP_CREATED);
     }
 
     public function show(Category $category)
@@ -30,18 +31,18 @@ class CategoryController extends Controller
     {
         $category->fill($request->all());
         $category->save();
-        return response()->json([], 200);
+        return response()->json([], Status::HTTP_OK);
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return response()->json([], 204);
+        return response()->json([], Status::HTTP_NO_CONTENT);
     }
 
     public function restore(Category $category)
     {
         $category->restore();
-        return response()->json([], 204);
+        return response()->json([], Status::HTTP_NO_CONTENT);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use CodeShopping\User;
+use CodeShopping\Models\User;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder

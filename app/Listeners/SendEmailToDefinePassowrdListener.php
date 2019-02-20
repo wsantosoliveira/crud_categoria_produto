@@ -12,5 +12,8 @@ class SendEmailToDefinePassowrdListener
 
     public function handle(UserCreatedEvent $event)
     {
+        $user = $event->getUser();
+        $token = \Password::broker()->createToken($user);
+        $user->sendPasswordResetNotification($token);
     }
 }

@@ -5,7 +5,7 @@ namespace CodeShopping\Providers;
 use CodeShopping\Common\OnlyTrashed;
 use CodeShopping\Models\Category;
 use CodeShopping\Models\Product;
-use CodeShopping\User;
+use CodeShopping\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

@@ -8,6 +8,7 @@ use CodeShopping\Http\Requests\ProductRequest;
 use CodeShopping\Http\Resources\ProductResource;
 use CodeShopping\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as Status;
 
 class ProductController extends Controller
 {
@@ -24,7 +25,7 @@ class ProductController extends Controller
     {
         $product = Product::create($request->all());
         $product->refresh();
-        return response()->json(new ProductResource($product), 201);
+        return response()->json(new ProductResource($product), Status::HTTP_CREATED);
     }
 
     public function show(Product $product)
@@ -36,18 +37,18 @@ class ProductController extends Controller
     {
         $product->fill($request->all());
         $product->save();
-        return response()->json([], 200);
+        return response()->json([], Status::HTTP_OK);
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return response()->json([], 204);
+        return response()->json([], Status::HTTP_NO_CONTENT);
     }
 
     public function restore(Product $product)
     {
         $product->restore();
-        return response()->json([], 204);
+        return response()->json([], Status::HTTP_NO_CONTENT);
     }
 }

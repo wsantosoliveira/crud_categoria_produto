@@ -8,6 +8,7 @@ use CodeShopping\Http\Resources\ProductPhotoCollection;
 use CodeShopping\Http\Resources\ProductPhotoResource;
 use CodeShopping\Models\Product;
 use CodeShopping\Models\ProductPhoto;
+use Illuminate\Http\Response as Status;
 
 class ProductPhotoController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductPhotoController extends Controller
     public function store(ProductPhotoRequest $request, Product $product)
     {
         ProductPhoto::createWithPhotosFiles($product->id, $request->photos);
-        return response()->json([], 201);
+        return response()->json([], Status::HTTP_CREATED);
     }
 
     public function show(Product $product, $id)
@@ -32,13 +33,13 @@ class ProductPhotoController extends Controller
     {
         $photo = $product->photos()->findOrFail($id);
         $photo->updateWithPhoto($request->photo);
-        return response()->json([], 200);
+        return response()->json([], Status::HTTP_OK);
     }
 
     public function destroy(Product $product, $id)
     {
         $photo = $product->photos()->findOrFail($id);
         $photo->deletePhotoAndFiles();
-        return response()->json([], 204);
+        return response()->json([], Status::HTTP_NO_CONTENT);
     }
 }

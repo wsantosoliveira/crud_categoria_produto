@@ -7,6 +7,7 @@ use CodeShopping\Http\Requests\ProductCategoryRequest;
 use CodeShopping\Http\Resources\ProductCategoryResource;
 use CodeShopping\Models\Category;
 use CodeShopping\Models\Product;
+use Illuminate\Http\Response as Status;
 
 class ProductCategoryController extends Controller
 {
@@ -18,12 +19,12 @@ class ProductCategoryController extends Controller
     public function store(ProductCategoryRequest $request, Product $product)
     {
         $product->categories()->sync($request->categories);
-        return response()->json([], 201);
+        return response()->json([], Status::HTTP_CREATED);
     }
 
     public function destroy(Product $product, Category $category)
     {
         $product->categories()->detach($category->id);
-        return response()->json([], 204);
+        return response()->json([], Status::HTTP_NO_CONTENT);
     }
 }

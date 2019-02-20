@@ -6,6 +6,7 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\ProductInputRequest;
 use CodeShopping\Http\Resources\ProductInputResource;
 use CodeShopping\Models\Product;
+use Illuminate\Http\Response as Status;
 
 class ProductInputController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductInputController extends Controller
     {
         //$input = ProductInput::create($request->all());
         $input = $product->inputs()->create($request->all());
-        return response()->json(new ProductInputResource($input), 201);
+        return response()->json(new ProductInputResource($input), Status::HTTP_CREATED);
     }
 
     public function show(Product $product, $id)
