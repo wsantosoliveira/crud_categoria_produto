@@ -2,14 +2,18 @@
 
 namespace CodeShopping\Providers;
 
+use CodeShopping\Common\OnlyTrashed;
 use CodeShopping\Models\Category;
 use CodeShopping\Models\Product;
-use Illuminate\Database\Eloquent\Builder;
+use CodeShopping\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    use OnlyTrashed;
+
     protected $namespace = 'CodeShopping\Http\Controllers';
 
     public function boot()
@@ -17,25 +21,25 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind("category", function ($value) {
+            $request = app(Request::class);
             $query = Category::query();
-            $query = $this->onlyTrashedIfRequested($query);
+            $query = $this->onlyTrashedIfRequested($request, $query);
             $collection = $query->whereId($value)->orWhere("slug", $value)->get();
             return $collection->first();
         });
         Route::bind("product", function ($value) {
+            $request = app(Request::class);
             $query = Product::query();
-            $query = $this->onlyTrashedIfRequested($query);
+            $query = $this->onlyTrashedIfRequested($request, $query);
             $collection = $query->whereId($value)->orWhere("slug", $value)->get();
             return $collection->first();
         });
-    }
-
-    private function onlyTrashedIfRequested(Builder $query)
-    {
-        if (\Request::get("trashed") == 1)
-            $query = $query->onlyTrashed();
-
-        return $query;
+        Route::bind("user", function ($value) {
+            $request = app(Request::class);
+            $query = User::query();
+            $query = $this->onlyTrashedIfRequested($request, $query);
+            return $query->find($value);
+        });
     }
 
     public function map()
